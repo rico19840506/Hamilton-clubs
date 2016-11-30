@@ -1,0 +1,118 @@
+<?php require_once('../Connections/user_recuest.php'); ?>
+<?php
+if (!function_exists("GetSQLValueString")) {
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+{
+  if (PHP_VERSION < 6) {
+    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
+  }
+
+  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+
+  switch ($theType) {
+    case "text":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;    
+    case "long":
+    case "int":
+      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+      break;
+    case "double":
+      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
+      break;
+    case "date":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;
+    case "defined":
+      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+      break;
+  }
+  return $theValue;
+}
+}
+
+$colname_comment = "-1";
+if (isset($_GET['Comment'])) {
+  $colname_comment = $_GET['Comment'];
+}
+mysql_select_db($database_user_recuest, $user_recuest);
+$query_comment = sprintf("SELECT * FROM users WHERE `Comment` = %s", GetSQLValueString($colname_comment, "text"));
+$comment = mysql_query($query_comment, $user_recuest) or die(mysql_error());
+$row_comment = mysql_fetch_assoc($comment);
+$totalRows_comment = mysql_num_rows($comment);
+?>
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Untitled Document</title>
+</head>
+
+<script src="../SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
+<script src="../SpryAssets/SpryValidationTextarea.js" type="text/javascript"></script>
+<link href="../SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
+<link href="../SpryAssets/SpryValidationTextarea.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+  <span class="textareaRequiredMsg">A value is required.</span></span>
+</form>
+<script type="text/javascript">
+
+</script>
+<form id="form1" name="form1" method="POST">
+  <span id="sprytextfield1">
+    <label for="Title">Title</label>
+    <input type="text" name="Title" id="Title" />
+    <span class="textfieldRequiredMsg">A value is required.</span></span>
+</form>
+<script type="text/javascript">
+
+</script>
+<table width="246" height="64" border="0">
+  <tr>
+      <td width="69"></td>
+  </tr>
+    <tr>
+      <td>&nbsp;</td>
+    </tr>
+</table>
+  <table width="246" border="0">
+    <tr>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+</body><table width="500" border="0" cellpadding="6">
+  <tr>
+    <td></td>
+  </tr>
+  <tr>
+    <td><form id="form2" name="form2" method="post" action="">
+  <span id="sprytextarea1">
+  <label for="Coment">Coment</label>
+  <textarea name="Coment" id="Coment" cols="45" rows="5"></textarea></td>
+  </tr>
+  <tr>
+    <td><input name="submitComent" type="submit" id="submitComent" value="submitComents" /></td>
+  </tr>
+  <tr>
+    <td>latestcoment</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+
+</body>
+</html>
+<?php
+mysql_free_result($comment);
+?>

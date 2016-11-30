@@ -1,0 +1,97 @@
+
+<?php
+if(!empty($_POST['latitude']) && !empty($_POST['longitude'])){
+    //Send request and receive json data by latitude and longitude
+    $url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($_POST['latitude']).','.trim($_POST['longitude']).'&sensor=false';
+    $json = @file_get_contents($url);
+    $data = json_decode($json);
+    $status = $data->status;
+    if($status=="OK"){
+        //Get address from json data
+        $location = $data->results[0]->formatted_address;
+    }else{
+        $location =  '';
+    }
+    //Print address 
+    echo $location;
+}
+?>
+
+<!DOCTYPE html> 
+<html>
+<style>
+
+
+#draggble
+{
+	position:absolute;
+	background:coo#ffc;
+	border: 5px solid yellow;
+	width: 100px;
+	height: 100px;
+	padding: 50px;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+}
+</style>
+
+
+<head>
+<meta charset="UTF-8">
+<title>jQuery Mobile Web App</title>
+<link href="../jquery-mobile/jquery.mobile-1.0.min.css" rel="stylesheet" type="text/css"/><script src="javasrcipt/geolocationphonegap.js"></script>
+<script src="javasrcipt/geolocation.js"></script>
+</head> 
+
+<title>location</title>
+<meta name="viewport" content="width=device-width">
+
+<body> 
+<div data-role="page" id="page4">
+	<div data-role="header">
+		<h1>&nbsp;</h1>
+		<h1>location</h1>
+        <p>lat: <input type="text"
+    id="lat_fell"name="latitude"><br>
+    lng: <input type="text"
+    id="lng_field" name="longitude">
+   
+          <input type="text" name="last_name" />
+          <br />
+  <input type="submit" name="submit" value="location" />
+    
+       </p>
+      
+      <p>Your Location: <span id="location"></span>
+      </p>
+      
+      <p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Try It</button>
+
+<p><button onclick="geoFindMe()">Show my location</button></p>
+<div id="out"></div>
+ <div>
+        <iframe width="425" height="350" frameborder="0" scrolling="No" marginheight="0"
+            marginwidth="0" src="http://maps.google.com/maps?q=First+Baptist+Church,+Mc+Caysville,+GA+30555&amp;hl=en&amp;cd=2&amp;ei=Gh10TNbbGZj0ygTT24nwCQ&amp;sig2=hvRb-F6JuV91UcC6QUKGUw&amp;ie=UTF8&amp;view=map&amp;cid=16713672426408470324&amp;ved=0CBoQpQY&amp;hq=First+Baptist+Church,+Mc+Caysville,+GA+30555&amp;hnear=&amp;ll=43.2484106,-79.8668187&amp;spn=0.006153,0.013754&amp;z=16&amp;output=embed&amp;iwloc=near&amp;addr">
+        </iframe>
+        <br />
+        <small><a href="http://maps.google.com/maps?q=First+Baptist+Church,+Mc+Caysville,+GA+30555&amp;hl=en&amp;cd=2&amp;ei=Gh10TNbbGZj0ygTT24nwCQ&amp;sig2=hvRb-F6JuV91UcC6QUKGUw&amp;ie=UTF8&amp;view=map&amp;cid=16713672426408470324&amp;ved=0CBoQpQY&amp;hq=First+Baptist+Church,+Mc+Caysville,+GA+30555&amp;hnear=&amp;ll=34.986955,-84.368584&amp;spn=0.006153,0.013754&amp;z=16&amp;source=embed"
+            style="color: #0000FF; text-align:
+        
+        
+	</div>
+	
+	    </div>
+
+   
+   < left">View Larger Map</a></small></div>
+<div data-role="footer">
+	
+	</div>
+
+
+</body>
+
+
+</html>
